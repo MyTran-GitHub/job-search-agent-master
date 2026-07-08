@@ -52,6 +52,35 @@ Set `TINYFISH_API_KEY` in `.env` for live scraping, or use `npm run scrape -- --
 ## The 7-Step Pipeline (Application)
 
 After `npm run apply <id>`, run the **draft-review** skill for Tier S/A jobs:
+flowchart TB
+  subgraph setup [Setup / Profile]
+    P[search profile + ontology + constraints]
+  end
+  subgraph qgen [Query generation — new]
+    QP[query_planner: families × skills × seniority × domain]
+    EXP[optional LLM semantic expand → cached terms]
+  end
+  subgraph ingest [Ingestion]
+    TF[TinyFish search/fetch]
+    ATS[Greenhouse/Lever/Ashby for prioritized boards]
+    PRE[cheap prefilter: snippet/titledomain + seniority hints]
+    NORM[normalize + extract metadata]
+  end
+  subgraph rank [Rank — existing+]
+    HF[hard filters]
+    FEAT[domain + seniority scoring features]
+    TIER[tier engine]
+  end
+  FB[apply/reject feedback] -.-> QP
+
+  P --> QP
+  EXP --> QP
+  QP --> TF
+  QP --> ATS
+  TF --> PRE
+  ATS --> PRE
+  PRE --> NORM
+  NORM --> HF --> FEAT --> TIER
 
 > *"Run draft-review for my application to [company] [role]"*
 
