@@ -64,7 +64,7 @@ export function parseSearchQueries(careerGoalsMarkdown: string): string[] {
   const inSearchSection = careerGoalsMarkdown.match(
     /## Search Queries[\s\S]*?(?=##|$)/i
   );
-  if (!inSearchSection) return ["geospatial engineer entry level"];
+  if (!inSearchSection) return ["entry level earth observation geospatial remote"];
 
   const lines = inSearchSection[0].split("\n");
   for (const line of lines) {
@@ -72,7 +72,9 @@ export function parseSearchQueries(careerGoalsMarkdown: string): string[] {
     if (match) queries.push(match[1].trim());
   }
 
-  return queries.length > 0 ? queries : ["geospatial engineer entry level"];
+  return queries.length > 0
+    ? queries
+    : ["entry level earth observation geospatial remote"];
 }
 
 export async function searchAllQueries(

@@ -11,6 +11,12 @@ export const JobSchema = z.object({
   employment_type: z.string().optional(),
   visa_policy: z.string().optional(),
   experience_level: z.string().optional(),
+  years_required: z.number().nullable().optional(),
+  seniority_label: z
+    .enum(["entry", "mid", "senior", "unknown"])
+    .optional(),
+  domain_signals: z.array(z.string()).optional(),
+  domain_score: z.number().optional(),
   sponsorship_status: z.enum(["likely", "unlikely", "unknown"]).optional(),
   posting_age: z.string().optional(),
   source_url: z.string(),

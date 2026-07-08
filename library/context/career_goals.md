@@ -10,16 +10,19 @@
 ## Target Industries
 
 - Climate tech
-- Remote sensing / satellite
-- Environmental consulting
-- Government / public sector GIS
+- Remote sensing / satellite / Earth observation
+- Environmental data science / conservation
+- Wildfire and natural hazard analytics
+- Renewable energy
+- Sustainability / ESG analytics
+- Government / public sector GIS (climate-aligned)
 
-## Search Queries (used by scrape command)
+## Search Queries (optional extras — planner also builds queries from roles, industries, and skills)
 
-- geospatial engineer entry level
-- GIS analyst remote
-- GeoAI machine learning remote sensing
-- environmental data scientist GIS
+- entry level earth observation remote sensing
+- junior climate data analyst geospatial
+- associate environmental data scientist GIS
+- new grad geospatial sustainability
 
 ## Geographic Preferences
 

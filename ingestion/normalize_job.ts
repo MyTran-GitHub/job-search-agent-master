@@ -2,9 +2,14 @@ import crypto from "node:crypto";
 import type { JobSource } from "../utils/constants.js";
 import type { Job } from "../utils/schema_validator.js";
 import {
+  extractYearsFromText,
   normalizeWhitespace,
   stripHtml,
 } from "../utils/text_normalizer.js";
+import {
+  inferSeniorityLabel,
+  scoreDomainAlignment,
+} from "./domain_signals.js";
 
 export interface RawJobInput {
   title: string;
@@ -73,16 +78,30 @@ export function normalizeJob(input: RawJobInput): Job {
       ? input.requirements.map(normalizeWhitespace)
       : extractRequirements(description);
 
+  const title = normalizeWhitespace(input.title);
+  const fullText = `${title} ${description} ${requirements.join(" ")}`;
+  const yearsRequired = extractYearsFromText(fullText);
+  const seniorityLabel = inferSeniorityLabel(
+    title,
+    description,
+    yearsRequired
+  );
+  const domain = scoreDomainAlignment(fullText);
+
   return {
     id: generateJobId(input.company, input.title, input.source_url),
-    title: normalizeWhitespace(input.title),
+    title,
     company: normalizeWhitespace(input.company),
     description,
     requirements,
     location: normalizeWhitespace(input.location ?? "Unknown"),
     employment_type: input.employment_type,
     visa_policy: input.visa_policy,
-    experience_level: input.experience_level,
+    experience_level: input.experience_level ?? seniorityLabel,
+    years_required: yearsRequired,
+    seniority_label: seniorityLabel,
+    domain_signals: domain.hits.map((h) => h.domain),
+    domain_score: domain.score,
     sponsorship_status: input.sponsorship_status ?? "unknown",
     posting_age: input.posting_age,
     source_url: input.source_url,

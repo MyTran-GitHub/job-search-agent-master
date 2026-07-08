@@ -23,8 +23,10 @@ graph TD
     *   `library/context/experience/` — projects, internships, research, skills, achievements (source of truth)
     *   `library/profiles/` — function-specific resume presentation layers
     *   `library/context/constraints.md` — visa, location, experience ceiling
-    *   `library/context/career_goals.md` — search queries for scrape
-    *   `library/context/master-cv.md` — aggregated fallback for legacy skills
+*   `library/context/career_goals.md` — target roles/industries (scrape builds query plan; Search Queries optional)
+*   `library/context/target_sources.md` — priority Greenhouse/Lever/Ashby boards
+*   `library/domain/climate_ontology.json` — climate/EO domain keywords for discovery + rank
+*   `library/context/master-cv.md` — aggregated fallback for legacy skills
 
 ### Stage 2: Job Discovery (Scrape)
 *   **Goal**: Discover jobs via TinyFish + ATS feeds, normalize to canonical schema.

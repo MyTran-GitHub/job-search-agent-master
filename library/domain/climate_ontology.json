@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "description": "Climate / EO / sustainability domain ontology for query planning and ranking. Not a job-title list.",
+  "domains": {
+    "climate_tech": {
+      "label": "Climate technology",
+      "keywords": [
+        "climate tech",
+        "climate technology",
+        "decarbonization",
+        "carbon accounting",
+        "carbon sequestration",
+        "net zero",
+        "greenhouse gas",
+        "ghg",
+        "climate risk",
+        "climate adaptation"
+      ]
+    },
+    "earth_observation": {
+      "label": "Earth observation / remote sensing",
+      "keywords": [
+        "earth observation",
+        "remote sensing",
+        "satellite imagery",
+        "sentinel-2",
+        "sentinel 2",
+        "landsat",
+        "multispectral",
+        "hyperspectral",
+        "sar imagery",
+        "google earth engine",
+        "planet labs",
+        "eo data"
+      ]
+    },
+    "geospatial": {
+      "label": "Geospatial analytics",
+      "priority": "supporting",
+      "keywords": [
+        "geospatial",
+        "spatial analysis",
+        "gis",
+        "postgis",
+        "geopandas",
+        "raster",
+        "vector gis",
+        "spatial data science"
+      ]
+    },
+    "wildfire": {
+      "label": "Wildfire",
+      "keywords": [
+        "wildfire",
+        "wildland fire",
+        "fire risk",
+        "burn severity",
+        "fuel moisture",
+        "fire perimeter"
+      ]
+    },
+    "renewable_energy": {
+      "label": "Renewable energy",
+      "keywords": [
+        "renewable energy",
+        "solar",
+        "wind energy",
+        "clean energy",
+        "energy transition",
+        "grid resiliency",
+        "photovoltaic"
+      ]
+    },
+    "conservation": {
+      "label": "Conservation / ecology",
+      "keywords": [
+        "conservation",
+        "biodiversity",
+        "habitat",
+        "ecology",
+        "wetland",
+        "forestry",
+        "natural resources",
+        "ecosystem"
+      ]
+    },
+    "sustainability": {
+      "label": "Sustainability / ESG",
+      "keywords": [
+        "sustainability",
+        "esg",
+        "environmental impact",
+        "life cycle assessment",
+        "circular economy"
+      ]
+    },
+    "environmental_ds": {
+      "label": "Environmental data science",
+      "keywords": [
+        "environmental data",
+        "environmental modeling",
+        "hydrology",
+        "air quality",
+        "water quality",
+        "climate data",
+        "environmental intelligence"
+      ]
+    }
+  },
+  "role_family_cues": {
+    "EnvironmentalDS": [
+      "environmental data",
+      "climate data",
+      "sustainability analyst",
+      "esg analyst",
+      "environmental intelligence"
+    ],
+    "GeoAIResearch": [
+      "geoai",
+      "earth observation",
+      "remote sensing",
+      "satellite",
+      "computer vision"
+    ],
+    "GeospatialEngineering": [
+      "geospatial engineer",
+      "gis developer",
+      "spatial engineer",
+      "geoprocessing"
+    ],
+    "GISAnalyst": [
+      "gis analyst",
+      "spatial analyst",
+      "geospatial analyst",
+      "cartograph"
+    ]
+  },
+  "skill_query_seeds": [
+    "google earth engine",
+    "sentinel-2",
+    "remote sensing",
+    "postgis",
+    "geopandas",
+    "wildfire",
+    "climate data"
+  ],
+  "noise_keywords": [
+    "survey cad",
+    "parcel mapping only",
+    "autocad drafter",
+    "right of way",
+    "oil and gas landman",
+    "cable locator"
+  ],
+  "seniority": {
+    "entry_positive": [
+      "entry level",
+      "entry-level",
+      "junior",
+      "jr.",
+      "associate",
+      "new grad",
+      "new graduate",
+      "early career",
+      "early-career",
+      "analyst",
+      "intern",
+      "university hire",
+      "campus",
+      "0-2 years",
+      "0–2 years",
+      "1 year experience"
+    ],
+    "senior_negative": [
+      "senior",
+      "sr.",
+      "lead",
+      "principal",
+      "staff ",
+      "director",
+      "manager",
+      "head of",
+      "vp ",
+      "vice president",
+      "5+ years",
+      "7+ years",
+      "10+ years"
+    ]
+  }
+}

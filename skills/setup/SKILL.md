@@ -20,8 +20,9 @@ For full CV parsing into `library/context/experience/`, guide the user through s
    - `projects.md`, `internships.md`, `research.md`, `skills.md`, `achievements.md`
 3. **Generate function profiles** in `library/profiles/` (geospatial_engineer, gis_analyst, geoai_researcher, environmental_ds, software_engineer).
 4. **Fill** `library/context/constraints.md` — visa, location, experience ceiling.
-5. **Fill** `library/context/career_goals.md` — target roles and search queries for scrape.
-6. **Aggregate** `library/context/master-cv.md` from experience/ for backward compatibility with existing skills.
+5. **Fill** `library/context/career_goals.md` — target roles, industries, geography (Search Queries are optional extras; scrape builds queries from roles × industries × skills).
+6. **Optionally edit** `library/context/target_sources.md` — priority Greenhouse/Lever/Ashby boards for climate employers.
+7. **Aggregate** `library/context/master-cv.md` from experience/ for backward compatibility with existing skills.
 
 ## Cold-start check
 

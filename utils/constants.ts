@@ -11,6 +11,14 @@ export const PATHS = {
   profiles: path.join(ROOT_DIR, "library", "profiles"),
   constraints: path.join(ROOT_DIR, "library", "context", "constraints.md"),
   careerGoals: path.join(ROOT_DIR, "library", "context", "career_goals.md"),
+  skills: path.join(ROOT_DIR, "library", "context", "experience", "skills.md"),
+  targetSources: path.join(ROOT_DIR, "library", "context", "target_sources.md"),
+  climateOntology: path.join(
+    ROOT_DIR,
+    "library",
+    "domain",
+    "climate_ontology.json"
+  ),
   jobTaxonomy: path.join(ROOT_DIR, "library", "job_taxonomy.md"),
   workspace: path.join(ROOT_DIR, "workspace"),
   jobs: path.join(ROOT_DIR, "workspace", "jobs"),

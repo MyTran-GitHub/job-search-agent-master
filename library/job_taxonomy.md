@@ -8,8 +8,8 @@ Classification rules for `engine/classify_job_function.ts` and requirement norma
 |---|---|---|---|
 | Geospatial Engineering | `GeospatialEngineering` | geospatial engineer, GIS developer, spatial engineer, mapping engineer | PostGIS, GDAL, spatial databases, ETL pipelines, cloud geoprocessing |
 | GIS Analyst | `GISAnalyst` | GIS analyst, cartographer, spatial analyst, mapping specialist | ArcGIS, QGIS, cartography, spatial analysis, field data collection |
-| GeoAI / ML Research | `GeoAIResearch` | GeoAI, remote sensing ML, geospatial ML, earth observation AI | deep learning, satellite imagery, computer vision, PyTorch, TensorFlow |
-| Environmental Data Science | `EnvironmentalDS` | environmental data scientist, environmental analyst, climate data | environmental modeling, hydrology, ecology, climate data, ESG |
+| GeoAI / ML Research | `GeoAIResearch` | GeoAI, remote sensing, earth observation, satellite scientist/analyst | deep learning, satellite imagery, Earth Engine, computer vision, PyTorch, TensorFlow |
+| Environmental Data Science | `EnvironmentalDS` | environmental data scientist, environmental analyst, climate data/analyst, sustainability analyst, wildfire analyst, environmental intelligence | environmental modeling, hydrology, ecology, climate data, ESG, wildfire, sustainability |
 | Other | `Other` | software engineer, data engineer, backend | (fallback when no geospatial signal) |
 
 ## Classification Rules

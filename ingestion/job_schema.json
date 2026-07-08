@@ -23,6 +23,16 @@
     "employment_type": { "type": "string" },
     "visa_policy": { "type": "string" },
     "experience_level": { "type": "string" },
+    "years_required": { "type": ["number", "null"] },
+    "seniority_label": {
+      "type": "string",
+      "enum": ["entry", "mid", "senior", "unknown"]
+    },
+    "domain_signals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "domain_score": { "type": "number" },
     "sponsorship_status": {
       "type": "string",
       "enum": ["likely", "unlikely", "unknown"]

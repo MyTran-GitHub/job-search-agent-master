@@ -44,9 +44,10 @@ const TAXONOMY: TaxonomyRule[] = [
     function: "GeoAIResearch",
     titleKeywords: [
       /geoai/i,
-      /remote\s+sensing\s+ml/i,
+      /remote\s+sensing/i,
       /geospatial\s+ml/i,
-      /earth\s+observation\s+ai/i,
+      /earth\s+observation/i,
+      /satellite\s+(?:scientist|analyst|engineer)/i,
     ],
     descriptionKeywords: [
       /deep\s+learning/i,
@@ -54,6 +55,7 @@ const TAXONOMY: TaxonomyRule[] = [
       /computer\s+vision/i,
       /pytorch/i,
       /tensorflow/i,
+      /google\s+earth\s+engine/i,
     ],
   },
   {
@@ -62,6 +64,10 @@ const TAXONOMY: TaxonomyRule[] = [
       /environmental\s+data\s+scientist/i,
       /environmental\s+analyst/i,
       /climate\s+data/i,
+      /climate\s+analyst/i,
+      /sustainability\s+analyst/i,
+      /environmental\s+intelligence/i,
+      /wildfire\s+analyst/i,
     ],
     descriptionKeywords: [
       /environmental\s+modeling/i,
@@ -69,6 +75,9 @@ const TAXONOMY: TaxonomyRule[] = [
       /ecology/i,
       /climate\s+data/i,
       /esg/i,
+      /wildfire/i,
+      /decarbonization/i,
+      /sustainability/i,
     ],
   },
   {
