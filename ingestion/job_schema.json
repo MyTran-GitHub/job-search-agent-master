@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Job",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "company",
+    "description",
+    "requirements",
+    "location",
+    "source_url",
+    "source",
+    "scraped_at"
+  ],
+  "properties": {
+    "id": { "type": "string", "description": "Hash of company+title+source_url" },
+    "title": { "type": "string" },
+    "company": { "type": "string" },
+    "description": { "type": "string" },
+    "requirements": { "type": "array", "items": { "type": "string" } },
+    "location": { "type": "string" },
+    "employment_type": { "type": "string" },
+    "visa_policy": { "type": "string" },
+    "experience_level": { "type": "string" },
+    "sponsorship_status": {
+      "type": "string",
+      "enum": ["likely", "unlikely", "unknown"]
+    },
+    "posting_age": { "type": "string" },
+    "source_url": { "type": "string" },
+    "source": {
+      "type": "string",
+      "enum": ["tinyfish", "greenhouse", "lever", "ashby", "workday", "manual"]
+    },
+    "scraped_at": { "type": "string", "format": "date-time" }
+  }
+}

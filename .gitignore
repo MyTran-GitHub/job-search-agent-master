@@ -1,0 +1,50 @@
+# Extern Resume & Job Search Agent — .gitignore
+#
+# Purpose: keep candidate's personal data and search tracking out of GitHub. 
+# The template structure and example files stay; active runs and profiles stay local.
+
+# --- Personal profiles and stories (NEVER push) ---
+library/context/master-cv.md
+library/context/positioning.md
+library/context/voice/voice-profile.md
+library/context/voice/intake/taste-interview.md
+
+# Ignore all stories, but keep the examples:
+library/context/stories/*
+!library/context/stories/EXAMPLE-*.md
+
+# --- Active job applications (NEVER push) ---
+# Ignore everything in workspace/applications/ ...
+workspace/applications/*
+# ... but keep the structure-bearing example files and folders:
+!workspace/applications/README.md
+!workspace/applications/tracker.EXAMPLE.md
+!workspace/applications/EXAMPLE-meridian-business-analyst/
+!workspace/applications/EXAMPLE-vanguard-analyst/
+
+# --- Secrets (NEVER push) ---
+.env
+
+# --- Scratch / stress-test artifacts ---
+_stress-test/
+
+# --- Job intelligence pipeline state ---
+workspace/jobs/raw/*
+workspace/jobs/normalized/*
+workspace/jobs/ranked/*
+workspace/jobs/rejected/*
+!workspace/jobs/**/.gitkeep
+workspace/upskill/
+
+# --- Node / TypeScript build ---
+node_modules/
+dist/
+
+# --- Build / cache cruft ---
+__pycache__/
+*.pyc
+
+# --- OS / editor noise ---
+.DS_Store
+Thumbs.db
+.obsidian/

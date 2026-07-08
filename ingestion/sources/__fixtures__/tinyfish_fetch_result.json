@@ -1,0 +1,7 @@
+{
+  "url": "https://example.com/jobs/geospatial-engineer",
+  "title": "Junior Geospatial Engineer",
+  "company": "EcoSpatial Inc",
+  "description": "We are seeking an entry-level Geospatial Engineer to build spatial data pipelines.\n\nRequirements:\n- Bachelor's degree in GIS, Geography, or related field\n- Experience with Python and PostGIS\n- Familiarity with GDAL and geoprocessing workflows\n- 0-1 years experience welcome\n\nPreferred:\n- AWS experience\n- Remote sensing background",
+  "location": "Remote, US"
+}

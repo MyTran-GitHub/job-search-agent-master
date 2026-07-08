@@ -1,0 +1,28 @@
+{
+  "name": "extern-job-intelligence-system",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Job search intelligence pipeline with deterministic filtering and ATS-optimized resume tailoring",
+  "scripts": {
+    "build": "tsc",
+    "setup": "tsx commands/setup.ts",
+    "scrape": "tsx commands/scrape.ts",
+    "rank": "tsx commands/rank.ts",
+    "apply": "tsx commands/apply.ts",
+    "upskill": "tsx commands/upskill.ts",
+    "reset": "tsx commands/reset.ts"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "docx": "^9.7.1",
+    "dotenv": "^16.4.7",
+    "p-limit": "^6.2.0",
+    "yaml": "^2.9.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

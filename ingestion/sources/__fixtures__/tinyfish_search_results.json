@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://example.com/jobs/geospatial-engineer",
+    "title": "Junior Geospatial Engineer",
+    "company": "EcoSpatial Inc",
+    "snippet": "Entry-level geospatial engineer role with PostGIS and Python"
+  },
+  {
+    "url": "https://example.com/jobs/gis-analyst",
+    "title": "GIS Analyst",
+    "company": "MapWorks",
+    "snippet": "GIS analyst position requiring ArcGIS and spatial analysis"
+  }
+]
