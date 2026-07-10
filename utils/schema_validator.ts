@@ -50,6 +50,7 @@ export type Constraints = z.infer<typeof ConstraintsSchema>;
 export const OptimizationPlanSchema = z.object({
   job_id: z.string(),
   profile: z.string(),
+  master_resume_template: z.string(),
   job_function: z.enum(JOB_FUNCTIONS),
   section_order: z.array(z.string()),
   bullets_to_promote: z.array(z.string()),
@@ -58,6 +59,11 @@ export const OptimizationPlanSchema = z.object({
   ),
   keywords_to_mirror: z.array(z.string()),
   ats_alignment_score: z.number(),
+  capability_alignment: z.object({
+    score: z.number(),
+    matched: z.array(z.string()),
+    missing: z.array(z.string()),
+  }),
 });
 
 export type OptimizationPlan = z.infer<typeof OptimizationPlanSchema>;
@@ -67,6 +73,7 @@ export const DecisionReportSchema = z.object({
   title: z.string(),
   company: z.string(),
   job_function: z.enum(JOB_FUNCTIONS),
+  selected_master_resume: z.string(),
   hard_filter: z.object({
     passed: z.boolean(),
     checks: z.array(
@@ -88,6 +95,11 @@ export const DecisionReportSchema = z.object({
     signals: z.array(z.string()),
   }),
   optimization_summary: z.array(z.string()),
+  capability_alignment: z.object({
+    score: z.number(),
+    matched: z.array(z.string()),
+    missing: z.array(z.string()),
+  }),
   competitiveness: z.object({
     technical_match: z.enum(["strong", "moderate", "weak"]),
     evidence_strength: z.enum(["strong", "moderate", "weak"]),

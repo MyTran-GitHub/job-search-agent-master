@@ -24,7 +24,8 @@ graph TD
     *   `library/profiles/` — function-specific resume presentation layers
     *   `library/context/constraints.md` — visa, location, experience ceiling
 *   `library/context/career_goals.md` — target roles/industries (scrape builds query plan; Search Queries optional)
-*   `library/context/target_sources.md` — priority Greenhouse/Lever/Ashby boards
+*   `library/context/target_sources.md` — discovery strategy index
+*   `library/context/discovery/` — climate boards, VC portfolios, accelerators, target companies, ATS boards
 *   `library/domain/climate_ontology.json` — climate/EO domain keywords for discovery + rank
 *   `library/context/master-cv.md` — aggregated fallback for legacy skills
 

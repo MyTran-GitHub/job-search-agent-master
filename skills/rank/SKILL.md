@@ -15,9 +15,11 @@ npm run rank
 
 Options:
 - `--tier S,A` — show only specific tiers in output
+- `--max-scrape-age-days <n>` — skip jobs whose `scraped_at` is older than N days (default: `SCRAPE_MAX_POSTING_AGE_DAYS` or 10)
 
 ## Pipeline stages (in order)
 
+0. **Scrape freshness gate** — skip normalized jobs with stale `scraped_at` (safety net if rank runs long after scrape)
 1. **Classify** job function (GeospatialEngineering, GISAnalyst, GeoAIResearch, EnvironmentalDS, Other)
 2. **Hard filters** — visa, entry-level experience rule, structural blockers
 3. **Resume optimization plan** — profile selection, keyword alignment, bullet promotion (no fabrication)

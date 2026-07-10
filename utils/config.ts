@@ -6,10 +6,14 @@ dotenv.config({ path: PATHS.library.replace("/library", "/.env") });
 export interface AppConfig {
   tinyfish: {
     apiKey: string;
-    baseUrl: string;
+    searchUrl: string;
+    fetchUrl: string;
   };
   jsearch?: {
     rapidApiKey: string;
+  };
+  scrape: {
+    maxPostingAgeDays: number;
   };
   rateLimit: {
     concurrency: number;
@@ -18,17 +22,25 @@ export interface AppConfig {
 
 export function loadConfig(): AppConfig {
   const apiKey = process.env.TINYFISH_API_KEY ?? "";
-  const baseUrl =
-    process.env.TINYFISH_BASE_URL ?? "https://api.tinyfish.ai/v1";
+  const searchUrl =
+    process.env.TINYFISH_SEARCH_URL ?? "https://api.search.tinyfish.ai";
+  const fetchUrl =
+    process.env.TINYFISH_FETCH_URL ?? "https://api.fetch.tinyfish.ai";
 
   const jsearchKey = process.env.JSEARCH_RAPIDAPI_KEY;
 
   return {
     tinyfish: {
       apiKey,
-      baseUrl,
+      searchUrl,
+      fetchUrl,
     },
     jsearch: jsearchKey ? { rapidApiKey: jsearchKey } : undefined,
+    scrape: {
+      maxPostingAgeDays: Number(
+        process.env.SCRAPE_MAX_POSTING_AGE_DAYS ?? "10"
+      ),
+    },
     rateLimit: {
       concurrency: Number(process.env.SCRAPE_CONCURRENCY ?? "3"),
     },

@@ -19,15 +19,15 @@ export interface TargetAtsBoard {
 }
 
 /**
- * Parse library/context/target_sources.md boards section.
+ * Parse `## Boards` from discovery markdown.
  * Line format: `- greenhouse:token | Company Name`
  */
 export function parseTargetSourcesMarkdown(markdown: string): TargetAtsBoard[] {
-  const section = markdown.match(/## Boards[\s\S]*?(?=##|$)/i);
+  const section = markdown.match(/^## Boards\s*\r?\n([\s\S]*?)(?=^## |\z)/im);
   if (!section) return [];
 
   const boards: TargetAtsBoard[] = [];
-  for (const line of section[0].split("\n")) {
+  for (const line of section[1].split("\n")) {
     const match = line.match(
       /^-\s+(greenhouse|lever|ashby)\s*:\s*([^\s|]+)\s*\|\s*(.+)$/i
     );
@@ -42,10 +42,20 @@ export function parseTargetSourcesMarkdown(markdown: string): TargetAtsBoard[] {
 }
 
 export async function loadTargetAtsBoards(
-  filePath: string = PATHS.targetSources
+  filePath?: string
 ): Promise<TargetAtsBoard[]> {
-  const md = (await readTextFile(filePath)) ?? "";
-  return parseTargetSourcesMarkdown(md);
+  if (filePath) {
+    const md = (await readTextFile(filePath)) ?? "";
+    return parseTargetSourcesMarkdown(md);
+  }
+
+  const primary = (await readTextFile(PATHS.atsBoards)) ?? "";
+  const fromPrimary = parseTargetSourcesMarkdown(primary);
+  if (fromPrimary.length > 0) return fromPrimary;
+
+  // Backward compatibility: legacy single-file config
+  const legacy = (await readTextFile(PATHS.targetSources)) ?? "";
+  return parseTargetSourcesMarkdown(legacy);
 }
 
 async function fetchBoard(board: TargetAtsBoard): Promise<RawJobInput[]> {

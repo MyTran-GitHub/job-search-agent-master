@@ -1,13 +1,13 @@
 ---
 visa:
   requires_sponsorship: true
-  authorized: [F1-OPT, CPT]
+  authorized: [F1-OPT]
 location: [US, Remote-US]
 exclude:
   clearance: [TS, SCI, TS/SCI]
   citizenship_only: true
 experience:
-  max_years_required: 2
+  max_years_required: 3
 ---
 
 # Candidate Constraints

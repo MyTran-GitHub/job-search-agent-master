@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import path from "node:path";
+import { loadConfig } from "../utils/config.js";
 import { PATHS } from "../utils/constants.js";
 import {
   ensureDir,
@@ -22,6 +23,7 @@ import {
   formatDecisionReportTerminal,
 } from "../engine/decision_report.js";
 import { buildResumeForJob } from "../resume/build_resume.js";
+import { isScrapeFresh } from "../ingestion/posting_freshness.js";
 import type { Tier } from "../utils/constants.js";
 
 const program = new Command();
@@ -30,7 +32,15 @@ program
   .name("rank")
   .description("Run full job intelligence pipeline: filter → optimize → tier")
   .option("--tier <tiers>", "Filter output tiers (comma-separated, e.g. S,A)", "")
+  .option(
+    "--max-scrape-age-days <n>",
+    "Skip normalized jobs scraped more than N days ago (default: SCRAPE_MAX_POSTING_AGE_DAYS or 10)"
+  )
   .action(async (opts) => {
+    const config = loadConfig();
+    const maxScrapeAgeDays = opts.maxScrapeAgeDays
+      ? parseInt(opts.maxScrapeAgeDays, 10)
+      : config.scrape.maxPostingAgeDays;
     await ensureDir(PATHS.jobsRanked);
     await ensureDir(PATHS.jobsRejected);
 
@@ -50,12 +60,21 @@ program
       : null;
 
     const reports: ReturnType<typeof buildDecisionReport>[] = [];
+    let skippedStale = 0;
 
     for (const file of jobFiles) {
       const raw = await readJsonFile<unknown>(file);
       if (!raw) continue;
 
       const job = validateJob(raw);
+
+      if (!isScrapeFresh(job.scraped_at, maxScrapeAgeDays)) {
+        skippedStale++;
+        logger.info(
+          `SKIP stale scrape: ${job.title} @ ${job.company} (scraped_at=${job.scraped_at})`
+        );
+        continue;
+      }
       const classification = classifyJobFunction(job);
       const hardFilter = runHardFilters(job, constraints);
       const entryCheck = detectEntryLevel(job, maxYears);
@@ -65,10 +84,12 @@ program
         const rejectedReport = buildDecisionReport({
           job,
           job_function: classification.job_function,
+          selected_master_resume: "n/a (hard filter failed pre-optimization)",
           hard_filter: hardFilter,
           entry_level_check: entryCheck,
           visa_check: visaCheck,
           optimization_summary: ["Skipped — hard filter failed before optimization"],
+          capability_alignment: { score: 0, matched: [], missing: [] },
           competitiveness: {
             technical_match: "weak",
             evidence_strength: "weak",
@@ -106,10 +127,12 @@ program
       const report = buildDecisionReport({
         job,
         job_function: classification.job_function,
+        selected_master_resume: resumeResult.plan.master_resume_template,
         hard_filter: hardFilter,
         entry_level_check: entryCheck,
         visa_check: visaCheck,
         optimization_summary: resumeResult.optimization_summary,
+        capability_alignment: resumeResult.plan.capability_alignment,
         competitiveness,
         tier_result: tierResult,
       });
@@ -129,6 +152,9 @@ program
 
     console.log("\n--- Rank Summary ---");
     console.log(`Tier S: ${tierCounts.S} | A: ${tierCounts.A} | B: ${tierCounts.B} | C: ${tierCounts.C}`);
+    if (skippedStale > 0) {
+      console.log(`Skipped stale scrape (>${maxScrapeAgeDays}d): ${skippedStale}`);
+    }
     console.log(`Rejected: ${(await listJsonFiles(PATHS.jobsRejected)).length}`);
     console.log(`Ranked: ${reports.length} jobs in workspace/jobs/ranked/`);
   });

@@ -4,6 +4,8 @@
 
 - Geospatial Engineer
 - GIS Analyst
+- Spatial Analyst
+- Climate Analyst
 - GeoAI / ML Research Associate
 - Environmental Data Scientist
 
@@ -26,5 +28,6 @@
 
 ## Geographic Preferences
 
-- United States (remote or hybrid)
+- San Francisco, CA (in-person) — highest priority
+- United States: hybrid, on-site elsewhere, or remote — equal priority after SF
 - Open to relocation for strong Tier S roles

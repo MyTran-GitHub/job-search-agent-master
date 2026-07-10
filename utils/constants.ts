@@ -8,11 +8,20 @@ export const PATHS = {
   library: path.join(ROOT_DIR, "library"),
   context: path.join(ROOT_DIR, "library", "context"),
   experience: path.join(ROOT_DIR, "library", "context", "experience"),
+  masterResumes: path.join(ROOT_DIR, "library", "context", "master_resumes"),
   profiles: path.join(ROOT_DIR, "library", "profiles"),
   constraints: path.join(ROOT_DIR, "library", "context", "constraints.md"),
   careerGoals: path.join(ROOT_DIR, "library", "context", "career_goals.md"),
   skills: path.join(ROOT_DIR, "library", "context", "experience", "skills.md"),
   targetSources: path.join(ROOT_DIR, "library", "context", "target_sources.md"),
+  discovery: path.join(ROOT_DIR, "library", "context", "discovery"),
+  atsBoards: path.join(
+    ROOT_DIR,
+    "library",
+    "context",
+    "discovery",
+    "ats_boards.md"
+  ),
   climateOntology: path.join(
     ROOT_DIR,
     "library",

@@ -1,4 +1,5 @@
 import path from "node:path";
+import fs from "node:fs/promises";
 import type { Job } from "../utils/schema_validator.js";
 import { PATHS } from "../utils/constants.js";
 import { readTextFile, writeJsonFile } from "../utils/fs_helpers.js";
@@ -18,19 +19,30 @@ export interface BuildResumeResult {
 }
 
 async function loadExperienceText(): Promise<string> {
-  const files = [
-    "projects.md",
-    "internships.md",
-    "research.md",
-    "skills.md",
-    "achievements.md",
-  ];
+  // Ground truth: load ALL markdown under library/context/experience/.
+  // This includes master portfolio evidence files (e.g. master_portfolio_*.md).
+  const entries = await fs.readdir(PATHS.experience);
+  const mdFiles = entries
+    .filter((f) => f.toLowerCase().endsWith(".md"))
+    // Prefer canonical summaries first; portfolios later still count for capability evidence.
+    .sort((a, b) => {
+      const rank = (name: string) => {
+        const lower = name.toLowerCase();
+        if (lower === "skills.md") return 0;
+        if (lower === "projects.md") return 1;
+        if (lower === "internships.md") return 2;
+        if (lower === "research.md") return 3;
+        if (lower === "achievements.md") return 4;
+        if (lower.startsWith("master_portfolio_")) return 9;
+        return 5;
+      };
+      return rank(a) - rank(b) || a.localeCompare(b);
+    });
+
   const parts: string[] = [];
-  for (const file of files) {
-    const content = await readTextFile(
-      path.join(PATHS.experience, file)
-    );
-    if (content) parts.push(content);
+  for (const file of mdFiles) {
+    const content = await readTextFile(path.join(PATHS.experience, file));
+    if (content) parts.push(`\n\n---\n# experience/${file}\n\n${content}`);
   }
   return parts.join("\n");
 }

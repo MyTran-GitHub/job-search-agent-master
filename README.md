@@ -109,6 +109,7 @@ Copy a job description URL or text, open the agent, and say:
 
 The agent will scan the job, extract keywords, draft the CV and cover letter, and tell you how to verify them!
 
+Each scrape replaces the job pipeline snapshot (`normalized/`, and prunes `ranked/` / `rejected/` to match). Run `npm run rank` after scrape. Use `npm run reset -- --all` only for a manual full wipe (applications are never touched).
 ---
 
 ## System at a Glance

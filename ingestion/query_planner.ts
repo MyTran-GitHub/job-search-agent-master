@@ -78,11 +78,28 @@ function parseMaxYears(constraintsMd: string): number {
   return match ? parseInt(match[1], 10) : 2;
 }
 
-function geoHint(prefs: string[]): string {
+function parseGeoStrategy(prefs: string[]): {
+  primary: string | null;
+  broad: string;
+} {
   const joined = prefs.join(" ").toLowerCase();
-  if (/\bremote\b/.test(joined)) return "remote";
-  if (/\bunited states\b|\bus\b/.test(joined)) return "United States";
-  return prefs[0] ?? "";
+
+  const primary = /\bsan francisco\b|\bsf\b|\bbay area\b/.test(joined)
+    ? "San Francisco"
+    : null;
+
+  // Broad US search — do not force "remote" just because remote is an acceptable mode.
+  const broad = /\bunited states\b|\bus\b/.test(joined)
+    ? "United States"
+    : (prefs[0]?.replace(/\s*\(.*\)\s*$/, "").trim() || "United States");
+
+  return { primary, broad };
+}
+
+/** @deprecated Use parseGeoStrategy — kept for tests that import geoHint */
+export function geoHint(prefs: string[]): string {
+  const { primary, broad } = parseGeoStrategy(prefs);
+  return primary ?? broad;
 }
 
 function pickDomainPhrases(
@@ -153,7 +170,9 @@ export function buildQueryPlan(
   const onto = ontology ?? loadClimateOntology();
   const domains = pickDomainPhrases(profile.targetIndustries, onto);
   const skills = skillSeeds(profile.skills, onto);
-  const geo = geoHint(profile.geographicPreferences);
+  const { primary: primaryGeo, broad: broadGeo } = parseGeoStrategy(
+    profile.geographicPreferences
+  );
   const entryBias = [
     "entry level",
     "junior",
@@ -175,44 +194,73 @@ export function buildQueryPlan(
     planned.push({ query: q, strategy, rationale });
   };
 
-  // Role × domain (use role family phrases, not exhaustive titles)
+  // Role × domain — SF in-person first when configured, then broad US (no remote bias)
   for (const role of profile.targetRoles.slice(0, 4)) {
     for (const domain of domains.slice(0, 2)) {
+      if (primaryGeo) {
+        add(
+          [role, domain, primaryGeo].filter(Boolean).join(" "),
+          "role_domain",
+          `Role "${role}" × domain "${domain}" × ${primaryGeo} (priority geo)`
+        );
+      }
       add(
-        [role, domain, geo].filter(Boolean).join(" "),
+        [role, domain, broadGeo].filter(Boolean).join(" "),
         "role_domain",
-        `Role family "${role}" × domain "${domain}"`
+        `Role "${role}" × domain "${domain}" × ${broadGeo}`
       );
     }
   }
 
-  // Skill × domain — surfaces alternate titles via skill/problem match
+  // Skill × domain
   for (const skill of skills.slice(0, 4)) {
     const domain = domains[skills.indexOf(skill) % domains.length] ?? domains[0];
+    if (primaryGeo) {
+      add(
+        [skill, domain, "jobs", primaryGeo].filter(Boolean).join(" "),
+        "skill_domain",
+        `Skill "${skill}" × domain "${domain}" × ${primaryGeo} (priority geo)`
+      );
+    }
     add(
-      [skill, domain, "jobs", geo].filter(Boolean).join(" "),
+      [skill, domain, "jobs", broadGeo].filter(Boolean).join(" "),
       "skill_domain",
-      `Skill "${skill}" × domain "${domain}"`
+      `Skill "${skill}" × domain "${domain}" × ${broadGeo}`
     );
   }
 
-  // Seniority-biased retrieval (positive early-career cues + climate domain)
+  // Seniority-biased retrieval — primary geo first, then broad
   for (const domain of domains.slice(0, 2)) {
     for (const senior of entryBias.slice(0, 3)) {
+      const base = `${senior} ${domain} ${skills[0] ?? "gis"}`.trim();
+      if (primaryGeo) {
+        add(
+          `${base} ${primaryGeo}`,
+          "seniority_bias",
+          `Early-career bias × "${domain}" × ${primaryGeo} (priority geo)`
+        );
+      }
       add(
-        `${senior} ${domain} ${skills[0] ?? "gis"}`.trim(),
+        `${base} ${broadGeo}`,
         "seniority_bias",
-        `Early-career bias with domain "${domain}"`
+        `Early-career bias × "${domain}" × ${broadGeo}`
       );
     }
   }
 
-  // Analyst + climate without forcing a specific title brand
+  // Analyst + climate without forcing remote
   if (domains[0]) {
+    if (primaryGeo) {
+      add(
+        `analyst ${domains[0]} ${primaryGeo}`.trim(),
+        "seniority_bias",
+        `Analyst cue × primary domain × ${primaryGeo}`
+      );
+    }
     add(
-      `analyst ${domains[0]} ${geo || "remote"}`.trim(),
+      `analyst ${domains[0]} ${broadGeo}`.trim(),
       "seniority_bias",
-      "Analyst seniority cue with primary domain"
+      `Analyst cue × primary domain × ${broadGeo}`
     );
   }
 
@@ -223,7 +271,9 @@ export function buildQueryPlan(
 
   if (planned.length === 0) {
     add(
-      "entry level earth observation geospatial remote",
+      primaryGeo
+        ? `entry level earth observation geospatial ${primaryGeo}`
+        : "entry level earth observation geospatial United States",
       "fallback",
       "Default climate/EO early-career fallback"
     );
@@ -284,7 +334,7 @@ export function parseSearchQueries(careerGoalsMarkdown: string): string[] {
   const queries = extractSearchQueriesSection(careerGoalsMarkdown);
   return queries.length > 0
     ? queries
-    : ["entry level earth observation geospatial remote"];
+    : ["entry level earth observation geospatial San Francisco"];
 }
 
 export async function planSearchQueries(): Promise<QueryPlan> {

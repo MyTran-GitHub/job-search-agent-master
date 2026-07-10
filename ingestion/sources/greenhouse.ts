@@ -8,6 +8,7 @@ interface GreenhouseJob {
   content?: string;
   absolute_url?: string;
   updated_at?: string;
+  first_published?: string;
 }
 
 export async function fetchGreenhouseJobs(
@@ -30,6 +31,6 @@ export async function fetchGreenhouseJobs(
     location: job.location?.name ?? "Unknown",
     source_url: job.absolute_url ?? `https://boards.greenhouse.io/${token}/jobs/${job.id}`,
     source: "greenhouse" as const,
-    posting_age: job.updated_at,
+    posting_age: job.first_published ?? job.updated_at,
   }));
 }

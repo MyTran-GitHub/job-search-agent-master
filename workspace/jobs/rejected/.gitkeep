@@ -1,3 +1,0 @@
-# Hard-filtered jobs with rejection reason codes.
-
-Populated by `npm run rank` when jobs fail non-negotiable constraints.

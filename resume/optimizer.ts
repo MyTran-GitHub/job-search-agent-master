@@ -8,12 +8,18 @@ import { getNormalizedTerms } from "../engine/requirement_normalizer.js";
 export interface OptimizationPlan {
   job_id: string;
   profile: string;
+  master_resume_template: string;
   job_function: JobFunction;
   section_order: string[];
   bullets_to_promote: string[];
   terminology_swaps: Array<{ from: string; to: string }>;
   keywords_to_mirror: string[];
   ats_alignment_score: number;
+  capability_alignment: {
+    score: number;
+    matched: string[];
+    missing: string[];
+  };
 }
 
 const DEFAULT_SECTION_ORDER: Record<JobFunction, string[]> = {
@@ -126,18 +132,25 @@ export function buildOptimizationPlan(
   return {
     job_id: job.id,
     profile: profile.profile_file,
+    master_resume_template: profile.master_resume_file,
     job_function: jobFunction,
     section_order: DEFAULT_SECTION_ORDER[jobFunction],
     bullets_to_promote: bulletsToPromote,
     terminology_swaps: terminologySwaps,
     keywords_to_mirror: [...new Set(keywordsToMirror)].slice(0, 15),
     ats_alignment_score: atsAlignment.score,
+    capability_alignment: {
+      score: atsAlignment.score,
+      matched: atsAlignment.matched_keywords.slice(0, 25),
+      missing: atsAlignment.missing_keywords.slice(0, 25),
+    },
   };
 }
 
 export function summarizeOptimization(plan: OptimizationPlan): string[] {
   const summary: string[] = [];
   summary.push(`Selected profile: ${plan.profile}`);
+  summary.push(`Selected master resume: ${plan.master_resume_template}`);
   summary.push(`Section order: ${plan.section_order.slice(0, 3).join(" → ")}...`);
   summary.push(
     `Promoting bullets: ${plan.bullets_to_promote.slice(0, 3).join(", ")}`
@@ -150,5 +163,10 @@ export function summarizeOptimization(plan: OptimizationPlan): string[] {
   summary.push(
     `ATS keyword alignment: ${plan.ats_alignment_score}% (${plan.keywords_to_mirror.length} terms to mirror)`
   );
+  if (plan.capability_alignment.missing.length > 0) {
+    summary.push(
+      `Remaining capability gaps (true gaps only): ${plan.capability_alignment.missing.slice(0, 5).join(", ")}`
+    );
+  }
   return summary;
 }

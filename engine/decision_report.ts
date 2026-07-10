@@ -9,10 +9,12 @@ import type { JobFunction } from "../utils/constants.js";
 export interface DecisionReportInput {
   job: Job;
   job_function: JobFunction;
+  selected_master_resume: string;
   hard_filter: HardFilterResult;
   entry_level_check: EntryLevelCheckResult;
   visa_check: VisaCheckResult;
   optimization_summary: string[];
+  capability_alignment: { score: number; matched: string[]; missing: string[] };
   competitiveness: CompetitivenessResult;
   tier_result: TierResult;
 }
@@ -25,6 +27,7 @@ export function buildDecisionReport(
     title: input.job.title,
     company: input.job.company,
     job_function: input.job_function,
+    selected_master_resume: input.selected_master_resume,
     hard_filter: {
       passed: input.hard_filter.passed,
       checks: input.hard_filter.checks,
@@ -40,6 +43,7 @@ export function buildDecisionReport(
       signals: input.visa_check.signals,
     },
     optimization_summary: input.optimization_summary,
+    capability_alignment: input.capability_alignment,
     competitiveness: input.competitiveness,
     tier: input.tier_result.tier,
     justification: input.tier_result.justification,

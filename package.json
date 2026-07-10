@@ -10,7 +10,8 @@
     "rank": "tsx commands/rank.ts",
     "apply": "tsx commands/apply.ts",
     "upskill": "tsx commands/upskill.ts",
-    "reset": "tsx commands/reset.ts"
+    "reset": "tsx commands/reset.ts",
+    "verify:ats": "tsx ingestion/scripts/verify_ats_boards.ts"
   },
   "dependencies": {
     "commander": "^13.1.0",

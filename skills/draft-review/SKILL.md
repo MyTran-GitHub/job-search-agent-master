@@ -68,21 +68,24 @@ Extract: company, role, location, posting URL. Store for the workflow.
 Read once (do not re-read in Step 4):
 
 - `verdict.json` → `plan_path` → `optimized-resume-plan.json` (if present)
+- Master resume template from plan: `library/context/master_resumes/{master_resume_template}`
 - Selected `library/profiles/{profile}` from optimization plan
-- Relevant `library/context/experience/` files (bullets in `bullets_to_promote`)
+- Relevant `library/context/experience/` files — especially `master_portfolio_*.md` (bullets in `bullets_to_promote`)
 - `library/context/voice/identity.md`, `voice-profile.md`, `anti-patterns.md`
 - `research-brief-v1.md` in application folder if it exists
 - `skills/cv/resources/ats.md`, `skills/cv/resources/format.md`
 - `skills/cover-letter/resources/architecture.md`
 
 **CV** (`cv-v1.md`):
-- Follow `skills/cv/SKILL.md` rules and optimization plan (section order, bullets to promote, terminology swaps, keywords to mirror).
+- Follow `skills/cv/SKILL.md`: start from `master_resumes/{master_resume_template}`, adapt using `experience/` evidence — do not rebuild from scratch.
+- Apply optimization plan (section order, bullets to promote, terminology swaps, keywords to mirror, capability_alignment gaps).
 - One page US default; up to two pages Canadian if justified.
 - Never fabricate experience.
 
 **Cover letter** (`cover-letter-v1.md`):
-- Follow `skills/cover-letter/SKILL.md` — HCPA structure, voice rules, word ceiling.
-- If no `research-brief-v1.md` and no firm-specific hook material: draft best effort OR flag that `company-research` would strengthen the Hook — do not use generic consulting truisms.
+- Follow `skills/cover-letter/SKILL.md`: HCPA structure, voice rules, word ceiling.
+- Proof story from `experience/` / `master_portfolio_*.md` (plan `bullets_to_promote`); complement `cv-v1.md`, don't recap it.
+- If no `research-brief-v1.md` and no firm-specific hook material: draft best effort OR flag that `company-research` would strengthen the Hook — do not use generic mission truisms.
 
 Write both files to `workspace/applications/{company}-{role}/`.
 

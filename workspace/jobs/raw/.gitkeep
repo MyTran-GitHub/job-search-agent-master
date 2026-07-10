@@ -1,3 +1,0 @@
-# Raw job payloads — audit trail from scrape sources.
-
-This directory is populated by `npm run scrape`.
